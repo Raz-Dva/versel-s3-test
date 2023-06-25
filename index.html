@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <h1>Yoohoo! Server is running!</h1>
+  <br>
+  <form id="formElem" action="/image" method="POST" enctype="multipart/form-data">
+<!--      <input type="text" name="name">-->
+      <input type="text" name="descript">
+      <input type="file" name="image" id="fileInput" accept=".jpg, .png">
+      <input type="submit" id="submit-btn">
+  </form>
+  <p id="error-fetch"> Some text</p>
+
+  <br>
+  <img src="" alt="" id="loaded-img">
+  <script src="postForm.js"></script>
+</body>
+</html>
