@@ -12,7 +12,7 @@ const http = require('http'),
     multer = require('multer'),
     upload = multer({ storage: multer.memoryStorage()}),
     router = require('./router/router'),
-    port = 9003;
+    port = 3000;
 const { S3Client, GetObjectCommand, PutObjectCommand } = require("@aws-sdk/client-s3");
 const client = new S3Client({
         credentials: {
@@ -25,9 +25,9 @@ const client = new S3Client({
 
 // app.use(express.static(__dirname));
 // app.use('/', express.static(__dirname));
-app.use(express.static('public'));
+// app.use(express.static('public'));
 
-app.use('/', router);
+// app.use('/', router);
 // router.get('/', (req, res) => {
 //     res.sendFile(`${process.cwd()}/second.html`)
 // })
@@ -94,7 +94,31 @@ app.use('/', router);
 //         return res.status(error?.status || 400).send( 'Error from server')
 //     }
 // });
+//
+// server.listen(process.env.PORT || port, () => {
+//     console.log(`Server is run on port ${process.env.PORT || port}`);
+// });
 
-server.listen(process.env.PORT || port, () => {
+// const express = require('express');
+// const app = express();
+// const path = require('path');
+
+app.use(express.static('public'))
+
+app.get('/', (req, res) => {
+    res.sendFile('index.html', {root: path.join(__dirname, 'public')});
+})
+
+app.get('/second', (req, res) => {
+    res.sendFile('second.html', {root: path.join(__dirname, 'public')});
+})
+
+app.listen(process.env.PORT || 3000, () => {
     console.log(`Server is run on port ${process.env.PORT || port}`);
 });
+
+app.get("/about", function (req, res) {
+    res.send("<h1>About Page</h1>");
+});
+
+module.exports = app;
