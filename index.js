@@ -65,7 +65,7 @@ function uploadFile(file) {
 app.use(express.static(__dirname));
 
 app.get('/', (req, res) => {
-    res.render('index.html')
+    res.render('/index')
 })
 
 app.get('/image/:key', async (req, res) => {
