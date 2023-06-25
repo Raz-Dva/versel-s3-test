@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 router.get('/second', (req, res) => {
-    res.sendFile(`${process.cwd()}/second.html`)
+    res.sendFile(`${process.cwd()}/public/second.html`)
 })
 
 router.get('/ind', (req, res) => {
