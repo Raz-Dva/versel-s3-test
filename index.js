@@ -12,6 +12,7 @@ const http = require('http'),
     multer = require('multer'),
     upload = multer({ storage: multer.memoryStorage()}),
     router = require('./router/router'),
+    pathPublic = path.join(__dirname, 'public'),
     port = 3000;
 const { S3Client, GetObjectCommand, PutObjectCommand } = require("@aws-sdk/client-s3");
 const client = new S3Client({
@@ -106,11 +107,11 @@ const client = new S3Client({
 app.use(express.static('public'))
 
 app.get('/', (req, res) => {
-    res.sendFile('index.html', {root: path.join(__dirname, 'public')});
+    res.sendFile('index.html', {root: pathPublic});
 })
 
 app.get('/second', (req, res) => {
-    res.sendFile('second.html', {root: path.join(__dirname, 'public')});
+    res.sendFile('second.html', {root: pathPublic});
 })
 
 app.listen(process.env.PORT || 3000, () => {
