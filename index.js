@@ -63,6 +63,8 @@ function uploadFile(file) {
 // }
 // );
 // app.use(express.static(__dirname));
+// app.use('/', express.static(__dirname));
+
 
 app.get('/', (req, res) => {
     res.sendFile(`${process.cwd()}/second.html`)
