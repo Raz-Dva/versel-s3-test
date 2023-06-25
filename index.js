@@ -25,6 +25,7 @@ const client = new S3Client({
 
 // app.use(express.static(__dirname));
 // app.use('/', express.static(__dirname));
+app.use(express.static('public'));
 
 app.use('/', router);
 // router.get('/', (req, res) => {
