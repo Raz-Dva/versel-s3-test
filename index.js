@@ -66,35 +66,6 @@ const client = new S3Client({
 //         console.log('ERR+++', err);
 //     }
 // });
-
-// app.post('/image', upload.single('image'), async (req, res) => {
-//
-//     try{
-//         const file = req.file;
-//         const params = {
-//             Bucket: bucketName,
-//             Body: file.buffer,
-//             Key: 'id_' + (new Date().getTime()) + '_' + file.originalname, // add post id instead of name
-//             ContentType: file.mimetype,
-//         };
-//         const command = new PutObjectCommand(params);
-//         const result = await client.send(command);
-//         console.log(result['$metadata'].httpStatusCode);
-//         if (result['$metadata'].httpStatusCode === 200) {
-//             const URL = `https://${bucketName}.s3.${region}.amazonaws.com/${command.input.Key}`
-//             console.log(URL);
-//             return res.send({imageURL: URL})
-//         } else {
-//             console.log();
-//             return res.status(error?.status || 400).send( 'Error from server')
-//         }
-//         // result = await uploadFile(file);
-//         // await unlinkFile(file.path)
-//     } catch(error){
-//         console.log(error)
-//         return res.status(error?.status || 400).send( 'Error from server')
-//     }
-// });
 //
 // server.listen(process.env.PORT || port, () => {
 //     console.log(`Server is run on port ${process.env.PORT || port}`);
@@ -114,12 +85,42 @@ app.get('/second', (req, res) => {
     res.sendFile('second.html', {root: pathPublic});
 })
 
+app.get("/about", function (req, res) {
+    res.send("<h1>About Page</h1>");
+});
+
 app.listen(process.env.PORT || 3000, () => {
     console.log(`Server is run on port ${process.env.PORT || port}`);
 });
 
-app.get("/about", function (req, res) {
-    res.send("<h1>About Page</h1>");
+
+app.post('/image', upload.single('image'), async (req, res) => {
+
+    try{
+        const file = req.file;
+        const params = {
+            Bucket: bucketName,
+            Body: file.buffer,
+            Key: 'id_' + (new Date().getTime()) + '_' + file.originalname, // add post id instead of name
+            ContentType: file.mimetype,
+        };
+        const command = new PutObjectCommand(params);
+        const result = await client.send(command);
+        // console.log(result['$metadata'].httpStatusCode);
+        if (result['$metadata'].httpStatusCode === 200) {
+            const URL = `https://${bucketName}.s3.${region}.amazonaws.com/${command.input.Key}`
+            // console.log(URL);
+            return res.send({imageURL: URL})
+        } else {
+            // console.log();
+            return res.status(error?.status || 400).send( 'Error from server')
+        }
+        // result = await uploadFile(file);
+        // await unlinkFile(file.path)
+    } catch(error){
+        console.log(error)
+        return res.status(error?.status || 400).send( 'Error from server')
+    }
 });
 
 module.exports = app;
