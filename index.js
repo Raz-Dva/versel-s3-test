@@ -1,9 +1,9 @@
 const http = require('http'),
     express = require('express'),
     app = express(),
-    server = http.createServer(app),
-    { S3 } = require("@aws-sdk/client-s3"),
-    fs = require('fs'),
+    // server = http.createServer(app),
+    // { S3 } = require("@aws-sdk/client-s3"),
+    // fs = require('fs'),
     path = require('path'),
     region = 'eu-north-1',
     accessKeyId = 'AKIA2P4W6M4QZFVWSUPP',
@@ -11,7 +11,7 @@ const http = require('http'),
     bucketName = 'nikkiblog-bucket',
     multer = require('multer'),
     upload = multer({ storage: multer.memoryStorage()}),
-    router = require('./router/router'),
+    // router = require('./router/router'),
     pathPublic = path.join(__dirname, 'public'),
     port = 3000;
 const { S3Client, GetObjectCommand, PutObjectCommand } = require("@aws-sdk/client-s3");
@@ -78,7 +78,7 @@ const client = new S3Client({
 app.use(express.static('public'))
 
 app.get('/', (req, res) => {
-    res.sendFile('index.html', {root: pathPublic});
+    res.sendFile('index.html', );
 })
 
 app.get('/second', (req, res) => {
@@ -106,17 +106,15 @@ app.post('/image', upload.single('image'), async (req, res) => {
         };
         const command = new PutObjectCommand(params);
         const result = await client.send(command);
-        // console.log(result['$metadata'].httpStatusCode);
+
         if (result['$metadata'].httpStatusCode === 200) {
             const URL = `https://${bucketName}.s3.${region}.amazonaws.com/${command.input.Key}`
             // console.log(URL);
             return res.send({imageURL: URL})
         } else {
-            // console.log();
+
             return res.status(error?.status || 400).send( 'Error from server')
         }
-        // result = await uploadFile(file);
-        // await unlinkFile(file.path)
     } catch(error){
         console.log(error)
         return res.status(error?.status || 400).send( 'Error from server')
